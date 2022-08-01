@@ -1,7 +1,6 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
-from create_bot import dp
 import settings
 
 
@@ -27,9 +26,7 @@ async def cm_start(message: types.Message, state: FSMContext):
                 data['login'] = []
         else:
             await message.answer('Введите логин (test)')
-            async with state.proxy() as data:
-                data['login'] = []
-    
+            data['login'] = []
 
 
 # @dp.message_handler(commands=['login'], state=FSMAdmin.login)
@@ -45,7 +42,7 @@ async def write_login(message: types.Message, state: FSMContext):
 
 
 # @dp.message_handler(state=FSMAdmin.password)
-async def write_password(message: types.Message, state: FSMContext):
+async def write_password(message: types.Message):
     x = message
     if x.text == settings.reference['password']:
         await FSMAdmin.next()
@@ -71,12 +68,10 @@ async def write_age(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if int(data['age']) < 18:
             await message.answer('Введите место учебы:')
-            async with state.proxy() as data:
-                data['life'] = ['Место учебы:']
+            data['life'] = ['Место учебы:']
         else:
             await message.answer('Введите место работы:')
-            async with state.proxy() as data:
-                data['life'] = ['Место работы:']
+            data['life'] = ['Место работы:']
 
 
 async def life(message: types.Message, state: FSMContext):
@@ -94,4 +89,3 @@ def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(write_name, state=FSMAdmin.name)
     dp.register_message_handler(write_age, state=FSMAdmin.age)
     dp.register_message_handler(life, state=FSMAdmin.life)
-
