@@ -29,7 +29,7 @@ async def cm_start(message: types.Message, state: FSMContext):
             await message.answer('Введите логин (test)')
             async with state.proxy() as data:
                 data['login'] = []
-    # --- Проверка авторизации ---
+    
 
 
 # @dp.message_handler(commands=['login'], state=FSMAdmin.login)
